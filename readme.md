@@ -6,6 +6,7 @@ Em um método do controller, se não tiver a anotação ```@ResponseBody```, o m
 ```java  
 @Controller
 public class HelloController {  
+	@RequestMapping(value = "/hello")
 	@ResponseBody  
 	public String hello() {  
 		return "hello world";  
