@@ -12,4 +12,19 @@ public class HelloController {
 		return "hello world";  
 	}  
 }  
-```
+```  
+## ```@RestController``` ao invés de ```@Controller```  
+Para que não precisemos ficar adicionando ```@ResponseBody``` em todos métodos que queiramos que se comporte como um serviço rest, podemos substituir o ```@Controller``` por ```@RestController```. Com isso, o SpringBoot já entenderá que os métodos devem ser tratados como um retorno e não um redirecionamento de página.  
+```java  
+@RestController
+public class TopicoController {
+
+	@RequestMapping(value = "/topicos")
+	@ResponseBody
+	public List<Topico> lista() {
+		Topico topico = new Topico("Titulo", "Mensagem", new Curso("SpringBoot", "Programação"));
+		
+		return Arrays.asList(topico, topico, topico);
+	}
+}   
+```  
