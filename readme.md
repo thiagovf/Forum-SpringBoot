@@ -63,4 +63,5 @@ public interface TopicoRespository extends JpaRepository<Topico, Long> {
 	@Query("SELECT t FROM Topico t WHERE t.curso.nome = :nomeCurso")
 	List<Topico> carregarPorNomeDoCurso(String nomeCurso);
 
-}```  
+}
+```  
