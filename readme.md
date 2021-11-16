@@ -38,3 +38,16 @@ public class TopicoController {
 	}
 }   
 ```  
+## Spring JpaRepository  
+O Spring possibilita que definamos apenas uma interface para que ele crie as JPQL automaticamente, abstraindo do desenvolvedor essa complexidade.  
+```java  
+public interface TopicoRespository extends JpaRepository<Topico, Long> {
+
+	List<Topico> findByTitulo(String titulo);
+
+	List<Topico> findByCursoNome(String cursoNome);
+
+}    
+```  
+Detalhe importante é a forma como podemos "customizar" as queries. No exemplo acima, o ```findByTitulo``` vai fazer uma query usando o atributo do ```Titulo``` da entidade ```Topico```. No caso do médoto ```findByCursoNome```, ```Topico``` possui um relacionamento com a entidade Curso e esta possui o atributo ```Nome```. Dessa forma, o Spring Data consegue fazer a tradução correta.  
+Outro ponto que deve ser observado é no cenário abaixo. Supondo que na entidade ```Topico``` tivéssemos o atributo ```CursoNome```. Ao criar o método ```findByCursoNome``` com o objetivo de pegar o ```Nome``` da entidade ```Curso```, ocorreria uma ambiguidade onde o seria retornado o valor do atributo ```CursoNome```. Para resolver isso, deveríamos criar o método ```findByCurso_Nome```.  
