@@ -65,3 +65,36 @@ public interface TopicoRespository extends JpaRepository<Topico, Long> {
 
 }
 ```  
+## Bean Validation  
+Para validarmos as informações que são passadas nas requisições, poderíamos adicionar if e else no próprio controller onde elas chegam. No entanto, ao fazer isso, iríamos ter que fazer vários ifs e elses, além de meio que sobrecarregar o controller com atividades que não são propriamente sua.  
+Ao invés disso, adicionamos a dependência ```javax.validation``` ao projeto e colocamos anotações como a exposta abaixo no DTO que é recebido e no controller.  
+```java  
+public class TopicoForm {  
+
+	@NotNull  
+	@NotEmpty  
+	@Size(min = 5)  
+	private String titulo;  
+	
+	@NotNull  
+	@NotEmpty  
+	@Size(min = 10)  
+	private String mensagem;  
+	 
+	@NotNull  
+	@NotEmpty  
+	private String nomeCurso;   
+}  
+```  
+```java  
+@PostMapping
+public ResponseEntity<TopicoDTO> cadastrar(@Valid @RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
+	Topico topico = form.converter(cursoRepository);
+	topicoRepository.save(topico);
+
+	URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
+	return ResponseEntity.created(uri).body(new TopicoDTO(topico));
+}  
+```  
+
+	
